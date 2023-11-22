@@ -1,36 +1,42 @@
-import requests
-from bs4 import BeautifulSoup
-import urllib
+import os
+import shutil
 
-# Function to download an image or video
-def download_file(url, filename):
-    response = requests.get(url)
-    with open(filename, 'wb') as file:
-        file.write(response.content)
+def copy_files(source_folder, destination_folder, file_type):
+    """
+    Copy files of a certain type from a source folder to a destination folder.
 
-# URL of the website you want to scrape
-website_url = 'https://example.com'
+    Args:
+        source_folder (str): The source folder from which the files will be copied.
+        destination_folder (str): The destination folder to which the files will be copied.
+        file_type (str): The type of files to be copied.
+    """
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
 
-# Send an HTTP GET request to the website
-response = requests.get(website_url)
+    for file_name in os.listdir(source_folder):
+        if file_name.endswith(file_type):
+            source_file_path = os.path.join(source_folder, file_name)
+            destination_file_path = os.path.join(destination_folder, file_name)
+            shutil.copy2(source_file_path, destination_file_path)
 
-if response.status_code == 200:
-    soup = BeautifulSoup(response.text, 'html.parser')
-    
-    # Scrape images
-    img_tags = soup.find_all('img')
-    for img in img_tags:
-        img_url = img.get('src')
-        if img_url:
-            img_filename = img_url.split('/')[-1]
-            download_file(img_url, img_filename)
-    
-    # Scrape videos (replace 'video' with the appropriate HTML tag for videos)
-    video_tags = soup.find_all('video')
-    for video in video_tags:
-        video_url = video.get('src')
-        if video_url:
-            video_filename = video_url.split('/')[-1]
-            download_file(video_url, video_filename)
-else:
-    print(f"Failed to fetch the webpage. Status code: {response.status_code}")
+# Example usage:
+
+# Set the source and destination folders for each file type
+source_audio_folder = '/path/to/source/audio/folder'
+destination_audio_folder = '/path/to/destination/audio/folder'
+
+source_video_folder = '/path/to/source/video/folder'
+destination_video_folder = '/path/to/destination/video/folder'
+
+source_img_folder = '/path/to/source/img/folder'
+destination_img_folder = '/path/to/destination/img/folder'
+
+# Set the file types to be scraped
+audio_file_type = '.wav'
+video_file_type = '.mp4'
+img_file_type = '.jpg'
+
+# Call the copy_files function to perform the file scraping
+copy_files(source_audio_folder, destination_audio_folder, audio_file_type)
+copy_files(source_video_folder, destination_video_folder, video_file_type)
+copy_files(source_img_folder, destination_img_folder, img_file_type)
