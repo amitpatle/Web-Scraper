@@ -1,4 +1,6 @@
 
+<img src="image.jpg" align="center" />
+   
 ```markdown
 # Web Scraper Project
 
