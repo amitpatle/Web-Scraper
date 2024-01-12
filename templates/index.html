@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Scraping </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Web Scraping </h1>
+        <form action="/scrape" method="post">
+            <label for="url">Enter URL:</label>
+            <input type="text" name="url" id="url" required>
+            <button type="submit">Scrape</button>
+        </form>
+
+        <div class="content">
+            <div class="result">
+                <h2>Images</h2>
+                <ul id="image-list"></ul>
+            </div>
+
+            <div class="result">
+                <h2>Audio</h2>
+                <ul id="audio-list"></ul>
+            </div>
+
+            <div class="result">
+                <h2>Videos</h2>
+                <ul id="video-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
